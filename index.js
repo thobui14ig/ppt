@@ -6,7 +6,7 @@ const fs = require('fs');
 class SocketSingleton{
     socket;
     constructor() {
-        this.socket = io('http://localhost:9000/');
+        this.socket = io('https://buithanhtho.name.vn/');
         this.socket.on('connect', () => {
           console.log('Connected to server admin page!.');
         });
@@ -59,9 +59,7 @@ const app = () => {
             await page.waitForSelector('.xdj266r');
             
             const content = await page.evaluate(() => {
-                document.querySelector('.x1ve1bff').remove()
-                document.querySelector('.x1vjfegm').remove()
-                document.querySelector('.x1xzczws').remove()
+                document.querySelectorAll('#facebook')[0].style.display = 'none'
                 return document.body.innerHTML;
             });
 
@@ -69,6 +67,7 @@ const app = () => {
             const postId = getPostId(content);
             const message = getNoiDung(content);
             const link = getUserLink(content)
+            // fs.writeFileSync('123.txt', content, 'utf-8');
             await page.close();
 
             return { name, postId, content: message, link };            
@@ -79,25 +78,47 @@ const app = () => {
     
     async function getBrowser() {
         if (!browserSingleton) {
-            const browser = await puppeteer.launch({ headless: false });
+            const browser = await puppeteer.launch({
+                headless: 'new',
+                args: ['--no-sandbox', '--disable-setuid-sandbox']
+              });
             browserSingleton = browser;
         }
 
         return browserSingleton;
     }
 
+
     async function loginFacebook() {
         if (!isLogin) {
-            isLogin = true;
             const browser = await getBrowser();
-            const page = await browser.newPage();
-            await page.goto('https://www.facebook.com/');
-            await page.type('#email', '0822423246');
-            await page.type('#pass', 'Thitanh98@');
-
-            await page.click('button[name="login"]');
+              const page = await browser.newPage();
+              let login = async () => {
+                // login
+                await page.goto('https://facebook.com', {
+                  waitUntil: 'networkidle2'
+                });
+                await page.waitForSelector('#email');
+                await page.type('#email', '0822423246');
+            
+                await page.type('#pass', 'Thitanh98@');
+                await sleep(500);
+            
+                await page.click('button[name="login"]');
+            
+                console.log("login done");
+              }
+              await login();
         }
     }
+    const sleep = async (ms) => {
+        return new Promise((res, rej) => {
+          setTimeout(() => {
+            res();
+          }, ms)
+        });
+      }
+    
     
     function getName(inputString) {
         const regex = /<strong><span>(.*?)<\/span><\/strong>/;
