@@ -6,7 +6,7 @@ const fs = require('fs');
 class SocketSingleton{
     socket;
     constructor() {
-        this.socket = io('http://localhost:9000/');
+        this.socket = io('https://buithantho.name.vn/');
         this.socket.on('connect', () => {
           console.log('Connected to server admin page!.');
         });
@@ -23,68 +23,7 @@ class SocketSingleton{
     }
 }
 const socket = new SocketSingleton().getSocket()
-let cookies = [
-    {
-      name: 'datr',
-      value: 'C85YZakh1oKeMgZfhc22ByGv',
-      domain: '.facebook.com',
-      path: '/',
-      expires: 1734878732.878625,
-      size: 28,
-      httpOnly: true,
-      secure: true,
-      session: false,
-      sameSite: 'None',
-      sameParty: false,
-      sourceScheme: 'Secure',
-      sourcePort: 443
-    },
-    {
-      name: 'wd',
-      value: '800x600',
-      domain: '.facebook.com',
-      path: '/',
-      expires: 1700923533,
-      size: 9,
-      httpOnly: false,
-      secure: true,
-      session: false,
-      sameSite: 'Lax',
-      sameParty: false,
-      sourceScheme: 'Secure',
-      sourcePort: 443
-    },
-    {
-      name: 'sb',
-      value: 'C85YZdicwhuwSwlUTOhF7pyW',
-      domain: '.facebook.com',
-      path: '/',
-      expires: 1734878732.125811,
-      size: 26,
-      httpOnly: true,
-      secure: true,
-      session: false,
-      sameSite: 'None',
-      sameParty: false,
-      sourceScheme: 'Secure',
-      sourcePort: 443
-    },
-    {
-      name: 'fr',
-      value: '07uDzd9wDHB8p5ZWL..BlWM4L.BB.AAA.0.0.BlWM4L.AWVQ3pjADt8',
-      domain: '.facebook.com',
-      path: '/',
-      expires: 1708094732.125323,
-      size: 57,
-      httpOnly: true,
-      secure: true,
-      session: false,
-      sameSite: 'None',
-      sameParty: false,
-      sourceScheme: 'Secure',
-      sourcePort: 443
-    }
-  ]
+let cookies = null
   
 
 const app = () => {
